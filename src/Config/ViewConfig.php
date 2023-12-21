@@ -1,5 +1,5 @@
 <?php
-namespace TodoList\Project\Config;
+namespace Project\Config;
 
 class ViewConfig
 {

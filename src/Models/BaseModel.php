@@ -1,8 +1,8 @@
 <?php
-namespace TodoList\Project\Models;
+namespace Project\Models;
 
 use PDO;
-use TodoList\Project\Core\Database;
+use Project\Core\Database;
 
 abstract class BaseModel
 {

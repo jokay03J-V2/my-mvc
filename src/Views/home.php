@@ -30,3 +30,8 @@
         <input type="submit" value="Test with post request and custom response" class="btn btn-primary">
     </form>
 </main>
+<?php
+// Load js or css file
+$ressources->css("css/cssfile.css");
+$ressources->js("js/jsFile.js");
+?>

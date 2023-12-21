@@ -1,5 +1,5 @@
 <?php
-namespace TodoList\Project\Models;
+namespace Project\Models;
 
 use PDO;
 

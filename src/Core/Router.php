@@ -1,10 +1,10 @@
 <?php
-namespace TodoList\Project\Core;
+namespace Project\Core;
 
 use Exception;
 use ReflectionClass;
 use ReflectionMethod;
-use TodoList\Project\Config\ViewConfig;
+use Project\Config\ViewConfig;
 
 class Router
 {
@@ -17,7 +17,7 @@ class Router
         $controllers = glob(ROOT . "/src/Controllers/*.php");
         foreach ($controllers as $key => $controllerPath) {
             $controller = str_replace(".php", "", basename($controllerPath));
-            $toBe = "\\TodoList\\Project\\Controllers\\" . $controller;
+            $toBe = "\\Project\\Controllers\\" . $controller;
             $reflect = new ReflectionClass($toBe);
             $methods = $reflect->getMethods(ReflectionMethod::IS_PUBLIC);
             foreach ($methods as $reflectionMethod) {
@@ -46,7 +46,7 @@ class Router
         foreach ($this->routes as $key => $route) {
             // Check if path and method match with a route
             if ($route["path"] === $this->getRequestUri() && $route["method"] === $_SERVER["REQUEST_METHOD"]) {
-                $controllerPath = '\\TodoList\\Project\\Controllers\\' . $route["controller"];
+                $controllerPath = '\\Project\\Controllers\\' . $route["controller"];
                 $controller = new $controllerPath;
                 $action = $route["action"];
                 // Check if controller has method

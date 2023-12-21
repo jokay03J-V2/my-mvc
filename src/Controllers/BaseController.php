@@ -1,8 +1,8 @@
 <?php
-namespace TodoList\Project\Controllers;
+namespace Project\Controllers;
 
 use Attribute;
-use TodoList\Project\Core\ViewManager;
+use Project\Core\ViewManager;
 
 #[Attribute]
 abstract class BaseController

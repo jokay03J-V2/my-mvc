@@ -1,9 +1,5 @@
 # Getting Started
 
-## Run migrations
-By default, `todolist` is the database name used during migrations.\
-In `conception` folder, there is a `migrations.sql` file contain all tables structures used by this project.
-
 ## Setup config
 You must have a `config.json` for store database credidentials and other configs.
 You can use `config.exemple.json` file.\
@@ -19,9 +15,6 @@ You can use `config.exemple.json` file.\
     },
     "ressources": {
         "hostname": "http://localhost:3000" // url for serve local file using RessourceManager
-    },
-    "views": {
-        "notfound": "notfound" // (optional) view loaded when route is not found
     },
     // directory will be scanned when you use class using spl_autoload
     "autoload": [

@@ -1,5 +1,5 @@
 <?php
-namespace TodoList\Project\Core;
+namespace Project\Core;
 
 use Attribute;
 

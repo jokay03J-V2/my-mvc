@@ -1,5 +1,5 @@
-# Todolist
-> Create or remove a todo made easy !
+# My project
+> My project description !
 
 ## Requirements
 - php 8.x

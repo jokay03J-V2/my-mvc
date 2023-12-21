@@ -1,9 +1,9 @@
 <?php
-namespace TodoList\Project\Controllers;
+namespace Project\Controllers;
 
-use TodoList\Project\Core\Request;
-use TodoList\Project\Core\Response;
-use TodoList\Project\Core\Route;
+use Project\Core\Request;
+use Project\Core\Response;
+use Project\Core\Route;
 
 class ExempleController extends BaseController
 {
