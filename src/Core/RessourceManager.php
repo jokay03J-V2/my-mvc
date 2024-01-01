@@ -12,15 +12,11 @@ class RessourceManager
      */
     private array $jsFiles = [];
     /**
-     * Base path ressource
-     */
-    public string $ressourcePath = "cdn/";
-    /**
      * Get url for serve a file
      */
     function get(string $fileName)
     {
-        return CONFIG["ressources"]["hostname"] . "/public/" . $this->ressourcePath . $fileName;
+        return CONFIG["ressources"]["hostname"] . $fileName;
     }
 
     /**
@@ -28,9 +24,6 @@ class RessourceManager
      */
     function css(string $fileName)
     {
-        if (!file_exists("../../public" . $this->ressourcePath . $fileName)) {
-            copy(ROOT . "Ressources/" . $fileName, "../../public/" . $this->ressourcePath . $fileName);
-        }
         array_push($this->cssFiles, $fileName);
     }
 
@@ -39,9 +32,6 @@ class RessourceManager
      */
     function js(string $fileName)
     {
-        if (!file_exists("../../public" . $this->ressourcePath . $fileName)) {
-            copy(ROOT . "Ressources/" . $fileName, "../../public/" . $this->ressourcePath . $fileName);
-        }
         array_push($this->jsFiles, $fileName);
     }
 
