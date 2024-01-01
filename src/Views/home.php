@@ -32,6 +32,6 @@
 </main>
 <?php
 // Load js or css file
-$ressources->css("css/cssfile.css");
+$ressources->css("css/cssFile.css");
 $ressources->js("js/jsFile.js");
 ?>
