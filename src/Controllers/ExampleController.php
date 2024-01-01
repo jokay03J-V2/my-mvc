@@ -1,6 +1,7 @@
 <?php
 namespace Project\Controllers;
 
+use Project\Core\BaseController;
 use Project\Core\Request;
 use Project\Core\Response;
 use Project\Core\Route;
