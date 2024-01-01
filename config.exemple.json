@@ -8,10 +8,5 @@
     },
     "ressources": {
         "hostname": "http://localhost:3000"
-    },
-    "autoload": [
-        "src/Controllers",
-        "src/Core",
-        "src/Models"
-    ]
+    }
 }
