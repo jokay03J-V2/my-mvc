@@ -30,13 +30,7 @@ You can view an config example [here](./config.exemple.json)
     },
     "ressources": {
         "hostname": "http://localhost:3000" // url for serve local file using RessourceManager
-    },
-    // directory will be scanned when you use class using spl_autoload
-    "autoload": [
-        "src/Controllers",
-        "src/Core",
-        "src/Models"
-    ]
+    }
 }
 ```
 
@@ -60,18 +54,13 @@ You can use `Response` core class for update your response content-type for exam
 If you want additional informations you can read `Response` public method.
 
 ### Add route
-The strucure for add route.
+To add a route, you must add `Route` core class as attribute on a controller method.
 
-```json
-{
-    "routes": [
-        // others routes....
-        {
-            "path": "/form", // path of the route
-            "controller": "HomeController", // controller name, it will be instancied
-            "action": "submit", // method of instancied controller, it will be runned with a request and reponse parameters
-            "method": "POST" // method of this route, you can have two same route path but with a differente method
-        }
-    ]
+```php
+// ...rest of your controller methods
+
+#[Route("/", "GET")]
+function myMethod(Request $request, Response $response) {
+    // your code here
 }
 ```
