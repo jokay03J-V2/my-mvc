@@ -1,6 +1,8 @@
 <?php
 namespace Project\Core;
 
+use Exception;
+
 final class Request
 {
     /**
@@ -44,9 +46,67 @@ final class Request
         $this->query = $_GET;
     }
 
-    public function __get($name)
+    /**
+     * Validate data of current request.
+     * 
+     * Field name should be have error message for each rule.
+     * 
+     * Return result with this format.
+     * <code>
+     * [
+     * "hasError" => true|false,
+     * "data" => [allDataValided],
+     * "errors" => [allErrors]
+     * ]
+     * </code>
+     * 
+     * Example
+     * <code>
+     * <?php
+     * $request->validate([
+            "myfield" => ["required", "min:12"],
+            [
+            "myfield.required" => "myfield is required",
+            "myfield.min" => "myfield should be higher than 12 characters"
+            ])
+     * ?>
+     * </code>
+     */
+    public function validate(array $datas, array $errorMessages): array
     {
-        return $this->$name;
+        // Get all POST or GET request data and combine it
+        $inputs = [...$this->body, ...$this->query];
+        $results = ["hasError" => false, "errors" => [], "data" => []];
+        // Loop on all data to be in the request
+        foreach ($datas as $dataName => $rules) {
+            $dataValue = $inputs[$dataName];
+            // Loop on rules
+            foreach ($rules as $rule) {
+                $ruleExploded = explode(":", $rule);
+                $ruleName = $ruleExploded[0];
+                $ruleValue = $ruleExploded[1];
+
+                $ruleValided = match ($ruleName) {
+                    "required" => isset ($inputs[$dataName]),
+                    "min" => isset ($inputs[$dataName]) && count($dataValue) >= $ruleValue,
+                    "max" => isset ($inputs[$dataName]) && count($dataValue) <= $ruleValue,
+                    "email" => isset ($inputs[$dataName]) && filter_var($dataValue, FILTER_VALIDATE_EMAIL),
+                    // Return always true to add data value or null
+                    "optional" => true,
+                    default => throw new Exception("Invalid rule name"),
+                };
+
+                // Add error message corresponding to given error message for current rule
+                if (!$ruleValided) {
+                    $results["hasError"] = true;
+                    $results["errors"][] = $errorMessages[$dataName . "." . $ruleName];
+                } else {
+                    $results["data"][$dataName] = $dataValue;
+                }
+            }
+        }
+
+        return $results;
     }
 }
 ?>
