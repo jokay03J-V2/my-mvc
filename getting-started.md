@@ -1,6 +1,12 @@
 # Getting Started
 
-## Setup config
+## Using cli
+To easily start and setup config.
+```bash
+php start.php
+```
+
+## Setup config manualy
 You must have a `config.json` for store database credidentials and other configs.
 You can use `config.exemple.json` file.\
 **You must replace with your own credidential**
@@ -12,21 +18,13 @@ You can use `config.exemple.json` file.\
         "port": 3306, // database post
         "user": "root", // database user
         "password": "" // database password
-    },
-    "ressources": {
-        "hostname": "http://localhost:3000" // url for serve local file using RessourceManager
-    },
-    // directory will be scanned when you use class using spl_autoload
-    "autoload": [
-        "src/Controllers",
-        "src/Core",
-        "src/Models"
-    ]
+    }
 }
 ```
 
-## Run
+## Run manualy
 For run project **you must use the same hostname for serve a file and project**.
 ```bash
+cd public/
 php -S localhost:3000
 ```

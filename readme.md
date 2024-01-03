@@ -27,9 +27,6 @@ You can view an config example [here](./config.exemple.json)
         "port": 3306, // database post
         "user": "root", // database user
         "password": "" // database password
-    },
-    "ressources": {
-        "hostname": "http://localhost:3000" // url for serve local file using RessourceManager
     }
 }
 ```
