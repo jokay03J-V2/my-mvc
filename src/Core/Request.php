@@ -79,18 +79,22 @@ final class Request
         $results = ["hasError" => false, "errors" => [], "data" => []];
         // Loop on all data to be in the request
         foreach ($datas as $dataName => $rules) {
-            $dataValue = $inputs[$dataName];
+            $dataValue = $inputs[$dataName] ?? null;
             // Loop on rules
             foreach ($rules as $rule) {
                 $ruleExploded = explode(":", $rule);
                 $ruleName = $ruleExploded[0];
-                $ruleValue = $ruleExploded[1];
 
                 $ruleValided = match ($ruleName) {
-                    "required" => isset ($inputs[$dataName]),
-                    "min" => isset ($inputs[$dataName]) && count($dataValue) >= $ruleValue,
-                    "max" => isset ($inputs[$dataName]) && count($dataValue) <= $ruleValue,
-                    "email" => isset ($inputs[$dataName]) && filter_var($dataValue, FILTER_VALIDATE_EMAIL),
+                    "required" => ValidatorRules::required($dataValue),
+                    "min" => ValidatorRules::minLength($ruleExploded),
+                    "max" => ValidatorRules::maxLength($ruleExploded),
+                    "email" => ValidatorRules::email($dataValue),
+                    "url" => ValidatorRules::url($dataValue),
+                    "numeric" => ValidatorRules::numeric($dataValue),
+                    "alpha" => ValidatorRules::alpha($dataValue),
+                    "alphaNum" => ValidatorRules::alphaNum($dataValue),
+                    "date" => ValidatorRules::date($dataValue),
                     // Return always true to add data value or null
                     "optional" => true,
                     default => throw new Exception("Invalid rule name"),
