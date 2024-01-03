@@ -1,19 +1,20 @@
+#!/usr/bin/php
 <?php
 // Check if config exist
 if (!file_exists("./config.json")) {
     Line::yellow("You don't have a config file, is required to run.");
     Line::write("Create config ? yes/no:");
     if (filter_var(Line::prompt(), FILTER_VALIDATE_BOOLEAN)) {
-        $example = file_get_contents("config.exemple.json");
+        $example = file_get_contents("config.example.json");
         file_put_contents("config.json", $example);
+        Line::green("Config file was created successfully.");
+        Line::yellow("You must override example data with your real data.");
     } else {
         Line::red("You must have a config file to run !");
         exit(1);
     }
 }
 
-Line::write("Use https ? yes/no:");
-$useHttps = filter_var(Line::prompt(), FILTER_VALIDATE_BOOLEAN);
 // Check if connection is open
 $port = 3000;
 $host = "localhost";
@@ -22,17 +23,10 @@ while (checkPort($host, $port)) {
     $port++;
 }
 
-// Update config hostname
-$olderConfig = file_get_contents("config.json");
-$olderConfigConverted = json_decode($olderConfig, true);
-$olderConfigConverted["ressources"]["hostname"] = $useHttps ? "https://" : "http://" . $host . ":" . $port;
-$newConfig = json_encode($olderConfigConverted, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-file_put_contents("config.json", $newConfig);
-
 // Start php server
+Line::green("Starting php server at " . $host . ":" . $port);
 exec("cd ./public && php -S " . $host . ":" . $port);
 exec("cd ../");
-Line::green("Server started at " . $host . ":" . $port);
 
 
 function checkPort(string $host, int $port)
