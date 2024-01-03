@@ -16,7 +16,13 @@ class RessourceManager
      */
     function get(string $fileName)
     {
-        return CONFIG["ressources"]["hostname"] . $fileName;
+        // If the filename is url, serve url
+        if (filter_var($fileName, FILTER_VALIDATE_DOMAIN)) {
+            return $fileName;
+        }
+        $protocol = isset($_SERVER["HTTPS"]) ? "https://" : "http://";
+        $hostName = $protocol . $_SERVER["HTTP_HOST"];
+        return $hostName . "/" . $fileName;
     }
 
     /**
