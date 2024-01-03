@@ -29,12 +29,10 @@ class ExampleController extends BaseController
         // Check if validator has found error
         if ($data["hasError"]) {
             $response->json($data["errors"]);
-            $response->setStatus(400);
-            return $response;
+            return $response->setStatus(400);
         }
 
-        $response->json($data["data"]);
-        return $response;
+        return $response->json($data["data"]);
     }
 }
 ?>
