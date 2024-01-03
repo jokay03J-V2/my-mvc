@@ -39,43 +39,48 @@ class Response
     /**
      * Set response content-type
      */
-    function setContentType(int $statusCode)
+    function setContentType(int $statusCode): Response
     {
         $this->status = $statusCode;
+        return $this;
     }
 
     /**
      * Encode data to valid json and update content type of the response
      */
-    function json(mixed $data)
+    function json(mixed $data): Response
     {
         $json = json_encode($data);
         $this->contentType = "application/json";
         $this->data = $json;
+        return $this;
     }
 
     /**
      * Set reponse data
      */
-    function setData(mixed $data)
+    function setData(mixed $data): Response
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
      * Update response status code
      */
-    function setStatus(int $status)
+    function setStatus(int $status): Response
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
      * Update location header
      */
-    function locateTo(string $locate, )
+    function locateTo(string $locate): Response
     {
         $this->locate = $locate;
+        return $this;
     }
 
     /**
