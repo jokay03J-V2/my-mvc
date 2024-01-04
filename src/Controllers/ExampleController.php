@@ -34,5 +34,11 @@ class ExampleController extends BaseController
 
         return $response->json($data["data"]);
     }
+
+    #[Route("/params/:yourParams", "GET")]
+    function testParams(Request $request, Response $response)
+    {
+        return $response->json($request->params);
+    }
 }
 ?>
