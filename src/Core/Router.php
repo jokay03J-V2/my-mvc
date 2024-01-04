@@ -44,20 +44,11 @@ class Router
     {
         $hasFind = false;
         foreach ($this->routes as $key => $route) {
+            $params = [];
             // Check if path and method match with a route
-            if ($route["path"] === $this->getRequestUri() && $route["method"] === $_SERVER["REQUEST_METHOD"]) {
-                $controllerPath = '\\Project\\Controllers\\' . $route["controller"];
-                $controller = new $controllerPath;
-                $action = $route["action"];
-                // Check if controller has method
-                if (method_exists($controller, $action)) {
-                    // Run controller
-                    $this->runController($controller, $action);
-                    $hasFind = true;
-                    break;
-                } else {
-                    throw new Exception("Method doesn't exist on controller");
-                }
+            if ($this->match($route, $params) && $route["method"] === $_SERVER["REQUEST_METHOD"]) {
+                $this->runController($route, $params);
+                $hasFind = true;
             }
         }
         $notFoundView = ViewConfig::getNotFoundView();
@@ -70,6 +61,23 @@ class Router
         }
 
         return $hasFind;
+    }
+
+    /**
+     * Get route params.
+     * Return true is route match to current request otherwise false.
+     */
+    public function match(array $route, array &$params): array|bool
+    {
+        $url = $this->getRequestUri();
+        $path = preg_replace('#:([\w]+)#', '([^/]+)', $route["path"]);
+        $regex = "#^$path$#i";
+        if (!preg_match($regex, $url, $matches)) {
+            return false;
+        }
+        array_shift($matches);
+        $params = $matches;
+        return true;
     }
 
     /**
@@ -96,23 +104,33 @@ class Router
     /**
      * Run controller method and display response
      */
-    private function runController(mixed $controller, string $action)
+    private function runController(array $route, array $params)
     {
-        // Create base response and request
-        $baseResponse = new Response();
-        $baseRequest = new Request();
-        // Run controller and pass request and response
-        $controllerResult = call_user_func(array($controller, $action), $baseRequest, $baseResponse);
-        // Check if response is type Response for create custom response
-        // eg: if you want only return json for REST api
-        if ($controllerResult instanceof Response) {
-            // update response content type and get response data for send it
-            $result = $controllerResult->sendResponse();
-            echo $result;
-        } else if (isset($controllerResult)) {
-            // send raw data without able to change his content-type
-            echo $controllerResult;
+        $controllerPath = '\\Project\\Controllers\\' . $route["controller"];
+        $controller = new $controllerPath;
+        $action = $route["action"];
+        // Check if controller has method
+        if (method_exists($controller, $action)) {
+            // Create base response and request
+            $baseResponse = new Response();
+            $baseRequest = new Request();
+            $baseRequest->params = $params;
+            // Run controller and pass request and response
+            $controllerResult = call_user_func(array($controller, $action), $baseRequest, $baseResponse);
+            // Check if response is type Response for create custom response
+            // eg: if you want only return json for REST api
+            if ($controllerResult instanceof Response) {
+                // update response content type and get response data for send it
+                $result = $controllerResult->sendResponse();
+                echo $result;
+            } else if (isset($controllerResult)) {
+                // send raw data without able to change his content-type
+                echo $controllerResult;
+            }
+        } else {
+            throw new Exception("Method doesn't exist on controller");
         }
+
     }
 }
 ?>
