@@ -104,6 +104,8 @@ final class Request
                 if (!$ruleValided) {
                     $results["hasError"] = true;
                     $results["errors"][] = $errorMessages[$dataName . "." . $ruleName];
+                    // Exit rules loop when one rule is not satisfy
+                    break;
                 } else {
                     $results["data"][$dataName] = $dataValue;
                 }
