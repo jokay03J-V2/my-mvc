@@ -17,7 +17,7 @@ Please refer to [getting started](./getting-started.md#run)
 > References of base core class
 
 ### Config
-You can view an config example [here](./config.exemple.json)
+You can view an config example [here](./config.example.json)
 
 ```json
 {
